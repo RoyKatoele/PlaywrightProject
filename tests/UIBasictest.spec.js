@@ -12,7 +12,8 @@ test.only('First Playwright test',async function({browser}) // andere manier van
 const context = await browser.newContext();
 const page = await context.newPage();
 const userName = page.locator('#username'); // je kunt een locator ook in een variabele opslaan zoals hier gedaan is
-const signIn = page.locator('#signInBtn')
+const signIn = page.locator('#signInBtn');
+const cardTitles = page.locator(".card-body a"); 
 await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 console.log(await page.title());
 await userName.fill("rahulshetty"); // hier gaat hij op zoek naar het element met de ID (username) en vult deze met de waarde in fill
@@ -24,8 +25,10 @@ await expect(page.locator("[style*='block']")).toContainText('Incorrect'); //dez
 await userName.fill("");
 await userName.fill("rahulshettyacademy");
 await signIn.click();
-console.log (await page.locator(".card-body a").nth(0).textContent()); // deze locator vindt 4 elementen. om te zorgen dat hij de eerste terug geeft kun je ".nth(0)" toevoegen als 1 invult zal hij het tweede element ophalen
-console.log (await page.locator(".card-body a").first().textContent()); // dit is een andere optie
+console.log (await cardTitles.nth(0).textContent()); // deze locator vindt 4 elementen. om te zorgen dat hij de eerste terug geeft kun je ".nth(0)" toevoegen als 1 invult zal hij het tweede element ophalen
+console.log (await cardTitles.first().textContent()); // dit is een andere optie
+const allTitles = await cardTitles.allTextContents(); // haalt alle content op met deze locator, hier zit geen smart wait op, deze zit wel op "textContent()" (zie hier voor meer info: https://playwright.dev/docs/actionability)
+console.log(allTitles);
 }
 );
 
