@@ -1,7 +1,7 @@
 const {test, expect} = require('@playwright/test');
 
 
-test.only('First Playwright test',async function({browser}) // andere manier van "function()" scrhijven is "()=>"
+test('First Playwright test',async function({browser}) // andere manier van "function()" scrhijven is "()=>"
 {
 //playwright code-
 //step 1 open browser
@@ -29,6 +29,21 @@ console.log (await cardTitles.nth(0).textContent()); // deze locator vindt 4 ele
 console.log (await cardTitles.first().textContent()); // dit is een andere optie
 const allTitles = await cardTitles.allTextContents(); // haalt alle content op met deze locator, hier zit geen smart wait op, deze zit wel op "textContent()" (zie hier voor meer info: https://playwright.dev/docs/actionability)
 console.log(allTitles);
+}
+);
+
+test.only('First solo Playwright test',async function({browser})
+{
+const context = await browser.newContext();
+const page = await context.newPage();
+const userName = page.locator('#userEmail'); // je kunt een locator ook in een variabele opslaan zoals hier gedaan is
+const signIn = page.locator('#login');
+const cardTitles = page.locator(".card-body b");
+await page.goto("http://www.rahulshettyacademy.com/client/#/auth/login");
+await userName.fill("katoeler@hotmail.com"); 
+await page.locator("#userPassword").fill("Testing123");
+await signIn.click();
+console.log (await cardTitles.first().textContent());
 }
 );
 
