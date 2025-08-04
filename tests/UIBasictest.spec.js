@@ -32,18 +32,21 @@ console.log(allTitles);
 }
 );
 
-test.only('First solo Playwright test',async function({browser})
+test.only('UI Controls',async ({page})=> // dit dit hetzelfde als "First Playwright test"
 {
-const context = await browser.newContext();
-const page = await context.newPage();
-const userName = page.locator('#userEmail'); // je kunt een locator ook in een variabele opslaan zoals hier gedaan is
-const signIn = page.locator('#login');
-const cardTitles = page.locator(".card-body b");
-await page.goto("http://www.rahulshettyacademy.com/client/#/auth/login");
-await userName.fill("katoeler@hotmail.com"); 
-await page.locator("#userPassword").fill("Testing123");
-await signIn.click();
-console.log (await cardTitles.first().textContent());
+await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+const userName = page.locator('#username'); 
+const signIn = page.locator('#signInBtn');
+const dropdown = page.locator('select.form-control');
+await userName.fill("rahulshetty"); 
+await page.locator("[type='password']").fill("learning");
+await dropdown.selectOption("consult");
+await page.locator(".radiotextsty").last().click();
+await page.locator("#okayBtn").click();
+//assertion
+
+await page.pause(); // handig om het scherm te bekijken en voor debuggen
+
 }
 );
 
