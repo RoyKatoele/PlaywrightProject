@@ -34,7 +34,7 @@ console.log(allTitles);
 
 test.only('UI Controls',async ({page})=> // dit dit hetzelfde als "First Playwright test"
 {
-await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+await page.goto("https://rahulshettyacademy.com/loginpagePractise/"); 
 const userName = page.locator('#username'); 
 const signIn = page.locator('#signInBtn');
 const dropdown = page.locator('select.form-control');
@@ -43,9 +43,18 @@ await page.locator("[type='password']").fill("learning");
 await dropdown.selectOption("consult");
 await page.locator(".radiotextsty").last().click();
 await page.locator("#okayBtn").click();
-//assertion
+await expect(page.locator(".radiotextsty").last()).toBeChecked(); // assertion om te checken of een radio button geset is
+console.log (await page.locator(".radiotextsty").last().isChecked());  // dit geeft true of false terug of de radio button checked is
+await page.locator("#terms").click();
+await expect(page.locator("#terms")).toBeChecked();
+await page.locator("#terms").uncheck();
+expect(await page.locator("#terms").isChecked()).toBeFalsy; // toBeFalsy geeft aan dat hij verwacht dat deze assertion false is + "await" staat hier binnen de expect omdat de actie ("isChecked") ook binnen de expect staat. 
+//await page.pause(); // handig om het scherm te bekijken en voor debuggen
 
-await page.pause(); // handig om het scherm te bekijken en voor debuggen
+// check of er een blinkende link rechtsboven in het scherm staat
+const documentLink = page.locator("[href*='documents-request']");
+await expect (documentLink).toHaveAttribute("class", "blinkingText");
+await documentLink.click();
 
 }
 );
@@ -63,3 +72,21 @@ await expect(page).toHaveTitle("Google");
 // runnen van een test: "npx playwright test" indien niet headless: "npx playwright test --headed" (terminal is te open in VS-code met Ctrl + ~)
 // als je 1 test wil uitvoeren uit het bestand zet je .only achter de test: Bijv. "test.only('page Playwright test',async ({page})=>"
 // hier vindt je een lijst met assertions: https://playwright.dev/docs/test-assertions
+// "await" voor een regel is alleen nodig als je in je stap een actie uitvoerd.
+
+
+// voor het bepalen van de locator van een element:
+//if Id is present
+//CSS -> tagname#id (or) #id
+//
+//If class attribute is present
+// css -> tagname.class (or) .class
+//
+//Write css based on any Attribute
+//css -> [attribute='value']
+//
+//Write css with traversing form parent to child
+//css -> parenttagname >> childtagname
+//
+//If needs to write the locator based on text
+//text=''
