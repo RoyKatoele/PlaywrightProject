@@ -32,7 +32,8 @@ console.log(allTitles);
 }
 );
 
-test.only('UI Controls',async ({page})=> // dit dit hetzelfde als "First Playwright test"
+
+test('UI Controls',async ({page})=> // dit dit hetzelfde als "First Playwright test"
 {
 await page.goto("https://rahulshettyacademy.com/loginpagePractise/"); 
 const userName = page.locator('#username'); 
@@ -54,10 +55,34 @@ expect(await page.locator("#terms").isChecked()).toBeFalsy; // toBeFalsy geeft a
 // check of er een blinkende link rechtsboven in het scherm staat
 const documentLink = page.locator("[href*='documents-request']");
 await expect (documentLink).toHaveAttribute("class", "blinkingText");
-await documentLink.click();
 
 }
 );
+
+test.only('Child windows handling', async({browser})=>
+{
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const documentLink = page.locator("[href*='documents-request']"); 
+    
+    const [newPage] = await Promise.all( // en promise is voor als 2 elementen van elkaar afhankelijk zijn. hij voert deze 2 stappen paralel uit en wacht tot beide succesvol zijn
+        [
+        context.waitForEvent('page'), // listen for any new page | 3 promisses namelijk: pending, rejected, fulfilled
+        documentLink.click(),// new page is opening
+        ] 
+    ) 
+
+    // we willen nu uit de text van 'text' het email adres halen en deze vullen op de eerste pagina bij de username
+    const text = await newPage.locator(".im-para.red").textContent(); // newPage zorgt ervoor dat hij zoekt op het nieuwe tabblad
+    const arrayText = text.split("@");
+    const domain = arrayText[1].split(" ")[0]
+    console.log(domain);
+
+    await page.locator("#username").fill(domain);
+    await page.pause(); 
+   
+})
 
 test('page Playwright test',async ({page})=> // dit dit hetzelfde als "First Playwright test"
 {
