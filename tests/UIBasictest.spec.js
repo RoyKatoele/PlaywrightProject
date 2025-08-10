@@ -75,7 +75,7 @@ test.only('Child windows handling', async({browser})=>
 
     // we willen nu uit de text van 'text' het email adres halen en deze vullen op de eerste pagina bij de username
     const text = await newPage.locator(".im-para.red").textContent(); // newPage zorgt ervoor dat hij zoekt op het nieuwe tabblad
-    const arrayText = text.split("@");
+    const arrayText = text.split("@"); //hiermee kan je een deel van een opgehaalde text splitten
     const domain = arrayText[1].split(" ")[0]
     console.log(domain);
 
@@ -98,6 +98,8 @@ await expect(page).toHaveTitle("Google");
 // als je 1 test wil uitvoeren uit het bestand zet je .only achter de test: Bijv. "test.only('page Playwright test',async ({page})=>"
 // hier vindt je een lijst met assertions: https://playwright.dev/docs/test-assertions
 // "await" voor een regel is alleen nodig als je in je stap een actie uitvoerd.
+// als je een test in debug modes wil starten doe je dit door achter het command voor het runnen van de test "--debug" te zetten
+// als je record en playback wilt uitvoeren kun dit doen met de command "npx playwright codegen  [URL bv.http://www.google.com]"
 
 
 // voor het bepalen van de locator van een element:
