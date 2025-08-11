@@ -1,6 +1,6 @@
 const {test, expect} = require('@playwright/test');
 
-test('First solo Playwright test',async function({browser})
+test.only('First solo Playwright test',async function({browser})
 {
 const context = await browser.newContext();
 const page = await context.newPage();
@@ -15,6 +15,7 @@ await signIn.click();
 await page.locator(".card-body b").last().waitFor(); // dit is een andere optie (ipv regel hierboven) voor het wachten dat de pagina geladen is.
 const titles = await page.locator(".card-body b").allTextContents();
 console.log (titles);
+await page.pause();
 }
 );
 

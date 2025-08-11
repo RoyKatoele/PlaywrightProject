@@ -59,7 +59,7 @@ await expect (documentLink).toHaveAttribute("class", "blinkingText");
 }
 );
 
-test.only('Child windows handling', async({browser})=>
+test('Child windows handling', async({browser})=>
 {
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -100,6 +100,8 @@ await expect(page).toHaveTitle("Google");
 // "await" voor een regel is alleen nodig als je in je stap een actie uitvoerd.
 // als je een test in debug modes wil starten doe je dit door achter het command voor het runnen van de test "--debug" te zetten
 // als je record en playback wilt uitvoeren kun dit doen met de command "npx playwright codegen  [URL bv.http://www.google.com]"
+// traces zijn heel handig om meer informatie te krijgen over een gefaalde test. je kunt de file downloaden (vanuit het rapport of te vinden in de map test-results) en dan kun je hem inladen in trace.playwright.dev
+
 
 
 // voor het bepalen van de locator van een element:
