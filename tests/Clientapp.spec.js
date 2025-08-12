@@ -15,6 +15,20 @@ await signIn.click();
 await page.locator(".card-body b").last().waitFor(); // dit is een andere optie (ipv regel hierboven) voor het wachten dat de pagina geladen is.
 const titles = await page.locator(".card-body b").allTextContents();
 console.log (titles);
+//ZARA COAT 3
+const productName = 'ZARA COAT 3';
+const products = page.locator(".card-body");
+const count = await products.count();
+
+for (let i=0; i < count; ++i)
+{
+    if (await products.nth(i).locator("b").textContent() === productName)
+    {
+        //add to cart
+        await products.nth(i).locator("Text= Add to Cart").click(); //"Text=Add to Cart" zo kan je op de text op een pagina zoeken
+        break; // dit zorgt ervoor dat hij stopt als hij het juiste product heeft gevonden
+    }
+}
 await page.pause();
 }
 );

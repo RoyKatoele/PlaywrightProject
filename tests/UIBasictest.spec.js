@@ -80,7 +80,7 @@ test('Child windows handling', async({browser})=>
     console.log(domain);
 
     await page.locator("#username").fill(domain);
-    await page.pause(); 
+    await page.pause(); //handig voor debugging
    
 })
 
