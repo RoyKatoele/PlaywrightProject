@@ -1,6 +1,6 @@
 const {test, expect} = require('@playwright/test');
 
-test.only('First solo Playwright test',async function({browser})
+test ('First solo Playwright test',async function({browser})
 {
 const context = await browser.newContext();
 const page = await context.newPage();
@@ -20,15 +20,19 @@ const productName = 'ZARA COAT 3';
 const products = page.locator(".card-body");
 const count = await products.count();
 
-for (let i=0; i < count; ++i)
+for (let i = 0; i < count; ++i)
 {
     if (await products.nth(i).locator("b").textContent() === productName)
     {
         //add to cart
-        await products.nth(i).locator("Text= Add to Cart").click(); //"Text=Add to Cart" zo kan je op de text op een pagina zoeken
+        await products.nth(i).locator("text= Add To Cart").click(); //"text=Add To Cart" zo kan je op de text op een pagina zoeken
         break; // dit zorgt ervoor dat hij stopt als hij het juiste product heeft gevonden
     }
 }
+await page.locator("[routerlink*='cart']").click();
+page.locator("div li").first().waitFor(); //deze wait for is handig als je even moet wachten tot een bepaald element geladen is. voor je een volgende check kan doen
+const bool = page.locator("h3:has-text('ZARA COAT 3')").isVisible(); //vindt alleen elementen met de tagname h3 waarin de text staat 'ZARA COAT 3'
+expect(bool).toBeTruthy();
 await page.pause();
 }
 );
